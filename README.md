@@ -1,4 +1,4 @@
-# Yulp
+# Yulp [![Build Status](https://travis-ci.org/EthanWelsh/Yulp.svg?branch=master)](https://travis-ci.org/EthanWelsh/Yulp)
 Yelp data challenge project to attempt to ascertain restaurant price ratings from written user reviews
 
 ## Installing Dependencies
