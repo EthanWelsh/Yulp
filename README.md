@@ -27,6 +27,18 @@ $ pip freeze > requirements.txt
 
 which will output your current dependency list to the file.  You should probably only do that if you're using a `virtualenv` to isolate the dependencies for just this project.
 
+## Development Data
+
+Included is a shell script (written against `ZSH`; it should work with `BASH`) that can generate a small set of test data from the full set of Yelp data provided for the challenge.  You can run the script as follows:
+
+```bash
+./lib/create_dev_data.sh PATH_TO_REVIEW_DATA_FILE PATH_TO_BUSINESS_DATA_FILE
+```
+
+This will create files at `./data/review-data-dev.json` and `./data/business-data-dev.json` respectively.  The Review data takes the first 1000 reviews from the full set; the business data is built by finding the businesses that correspond to those reviews and pulling them out into a separate file.
+
+Note: to parse JSON data on the command line, the `jq` tool is required.  More information about it can be found [here](https://stedolan.github.io/jq/).
+
 ## Running Tests
 
 From the root of the project directory, run
