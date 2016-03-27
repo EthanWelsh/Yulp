@@ -7,6 +7,9 @@ class FeatureVector:
         self.features = []
 
     def append(self, feature):
+        if not isinstance(feature, Feature):
+            raise TypeError
+
         self.features.append(feature)
 
     def train(self, data, labels):
