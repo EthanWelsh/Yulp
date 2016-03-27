@@ -11,7 +11,7 @@ class TestFeatureVector:
             pass
 
         def score(self, data):
-            return 0
+            return 0.0
 
         def save(self, path):
             pass
@@ -40,4 +40,7 @@ class TestFeatureVector:
         fv.append(TestFeatureVector.BogusFeature())
         fv.append(TestFeatureVector.BogusFeature())
         fv.append(TestFeatureVector.BogusFeature())
-        assert fv.score([[['A']], [['B']], [['C']], [['D']]]) == [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]]
+        assert fv.score([[['A']], [['B']], [['C']], [['D']]]) == [[0.0, 0.0, 0.0],
+                                                                  [0.0, 0.0, 0.0],
+                                                                  [0.0, 0.0, 0.0],
+                                                                  [0.0, 0.0, 0.0]]
