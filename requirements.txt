@@ -1,3 +1,4 @@
+sklearn
 nltk==3.2
 oauthlib==1.0.3
 py==1.4.31
