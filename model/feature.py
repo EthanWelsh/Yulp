@@ -1,13 +1,31 @@
 import abc
+import os
+
+
+class FeatureVector:
+
+    def __init__(self):
+        self.features = []
+
+    def append(self, feature):
+        self.features.append(feature)
+
+    def train(self, data, labels):
+        for feature in self.features:
+            feature.train(data, labels)
+
+    def score(self, data):
+        return [(feature.score(datum) for feature in self.features) for datum in data]
 
 
 class Feature:
     __metaclass__ = abc.ABCMeta
 
     @abc.abstractmethod
-    def train(self, data):
+    def train(self, data, labels):
         """
         :param data: A list of tuples containing training data and associated tag.
+        :param labels: A parallel array of matching labels for each piece of training data
         """
         return
 
