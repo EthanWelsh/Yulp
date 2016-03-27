@@ -15,7 +15,7 @@ class FeatureVector:
             feature.train(data, labels)
 
     def score(self, data):
-        return [(feature.score(datum) for feature in self.features) for datum in data]
+        return [[feature.score(datum) for feature in self.features] for datum in data]
 
 
 class Feature:
