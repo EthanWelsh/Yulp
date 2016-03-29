@@ -1,5 +1,23 @@
 language: python
+
 python:
   - 3.5
+
+cache: pip
+
+addons:
+  apt:
+    packages:
+      - gfortran
+      - libblas-dev
+      - liblapack-dev
+      - libopenblas-base
+      - libopenblas-dev
+
+before_install:
+  - pip install -U pip
+  - pip install scipy numpy
+  - pip install -e .
+
 script:
   - py.test
