@@ -1,5 +1,5 @@
 import pytest
-from sentiment_analysis import sentiment_analysis
+from features.sentiment_analysis import sentiment_analysis
 
 
 class TestSentimentAnalysisFeature:

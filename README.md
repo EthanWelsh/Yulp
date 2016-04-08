@@ -48,3 +48,7 @@ $ py.test
 ```
 
 You can find out more information about `pytest`, you can find the documentation [here](http://pytest.org/latest/contents.html).
+
+## Continuous Integration
+
+Travis CI will automatically run tests for all pull requests and report back to Github with the results (pass or fail).  Just a warning: the dependency installation can take a *really* long time.  This will only be done when versions of dependencies change, or if the dependency cache is cleared.  Normally, this shouldn't be the case; it will use the version of dependencies that were installed previously to avoid a lengthy build process.  Just a warning: if you end up clearing the cache, it _will_ take a long time to run the tests.
