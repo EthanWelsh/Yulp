@@ -1,4 +1,4 @@
-import abc
+from abc import abstractmethod, ABCMeta
 
 
 class FeatureVector:
@@ -21,29 +21,41 @@ class FeatureVector:
 
 
 class Feature:
-    __metaclass__ = abc.ABCMeta
+    __metaclass__ = ABCMeta
 
-    @abc.abstractmethod
+    @abstractmethod
     def train(self, data, labels):
         """
+        Train the model on some data
+
         :param data: A list of tuples containing training data and associated tag.
         :param labels: A parallel array of matching labels for each piece of training data
         """
-        return
+        pass
 
-    @abc.abstractmethod
+    @abstractmethod
     def score(self, data):
         """
         Provides some scalar value as representation of this feature's score
+
         :param data: a single review or list of reviews to score
         """
-        return
+        pass
 
-    @abc.abstractmethod
+    @abstractmethod
     def save(self, path):
-        """Save's pre-trained object to the given path."""
+        """
+        Saves pre-trained object to the given path.
 
-    @abc.abstractmethod
+        :param path: the path to save the data to
+        """
+        pass
+
+    @abstractmethod
     def load(self, path):
-        """Retrieve pre-trained object from the given path."""
-        return
+        """
+        Retrieve pre-trained object from the given path.
+
+        :param path: the path to load the data from
+        """
+        pass
