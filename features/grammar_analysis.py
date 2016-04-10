@@ -1,7 +1,8 @@
 import collections
 import re
-from model.feature import Feature
 import string
+
+from model.feature import Feature
 
 
 class GrammarScore(Feature):

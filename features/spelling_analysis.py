@@ -1,81 +1,93 @@
-#dictionary source: Princeton University "About WordNet." WordNet. Princeton University. 2010. <http://wordnet.princeton.edu>
-import re, collections
+import re
+import string
+
 from model.feature import Feature
+
+"""
+dictionary source:
+Princeton University "About WordNet." WordNet. Princeton University. 2010. <http://wordnet.princeton.edu>
+"""
+
+
 class Spelling(Feature):
-    wordCounts = {}
-    alphabet = 'abcdefghijklmnopqrstuvwxyz'
 
     def __init__(self):
-        print("created a spelling object")
+        self.word_counts = {}
 
-    #This function returns a value between 0 and 1 representing the proportion of correctness
-    #1 is everything spelled correctly, 0 is everything spelled incorrectly
     def spelling_analysis(self, text):
+        """
+        This function returns a value between 0 and 1 representing the proportion of correctness
+        :return: 1 is everything spelled correctly, 0 is everything spelled incorrectly
+        """
+
         misspellings = 0
-        totalWords = len(text)
+        total_words = len(text)
         for word in text:
             word = word.lower()
-            if(Spelling.wordCounts.get(word) == None):
+            if self.word_counts.get(word) is None:
                 print("we didn't find: ", word)
                 misspellings += 1
-        return (totalWords - misspellings) / totalWords
+        return (total_words - misspellings) / total_words
 
-
-    #this function returns an array with every word(in lower case) in the argument containing a-z
-    def words(self, text):
-        return re.findall('[a-z]+', text.lower())
-
-    #this function returns a model with each features unique word's number of occurrences
+    # TODO Update method signature to comply with Feature class
     def train(self, features):
-        #print(features)
-        model = Spelling.wordCounts
         for f in features:
-            if(model.get(f) == None):
-                model[f] = 0
-            model[f] = model[f] + 1
-        #print(model)
-        return model
-
-    def edits1(self, word):
-        word = word.lower()
-        s = [(word[:i], word[i:]) for i in range(len(word) + 1)]
-        deletes    = [a + b[1:] for a, b in s if b]
-        transposes = [a + b[1] + b[0] + b[2:] for a, b in s if len(b)>1]
-        replaces   = [a + c + b[1:] for a, b in s for c in Spelling.alphabet if b]
-        inserts    = [a + c + b for a, b in s for c in Spelling.alphabet]
-        return set(deletes + transposes + replaces + inserts)
-
-    def known_edits2(self, word):
-        return set(e2 for e1 in Spelling.edits1(word) for e2 in Spelling.edits1(e1) if e2 in Spelling.wordCounts)
+            self.word_counts[f] = self.word_counts.get(f, 0) + 1
 
     def known(self, words):
-        return set(w for w in words if w in Spelling.wordCounts)
+        return set(w for w in words if w in self.word_counts)
+
+    @staticmethod
+    def words(text):
+        """
+        This function returns an array with every word(in lower case) in the argument containing a-z
+        """
+        return re.findall('[a-z]+', text.lower())
+
+    @staticmethod
+    def edits1(word):
+        word = word.lower()
+        s = [(word[:i], word[i:]) for i in range(len(word) + 1)]
+        deletes = [a + b[1:] for a, b in s if b]
+        transposes = [a + b[1] + b[0] + b[2:] for a, b in s if len(b) > 1]
+        replaces = [a + c + b[1:] for a, b in s for c in string.ascii_lowercase if b]
+        inserts = [a + c + b for a, b in s for c in string.ascii_lowercase]
+        return set(deletes + transposes + replaces + inserts)
+
+    @staticmethod
+    def known_edits2(self, word):
+        return set(e2 for e1 in Spelling.edits1() for e2 in Spelling.edits1() if e2 in self.word_counts)
 
     def correct(self, word):
-        #candidates = known([word]) or known(edits1(word)) or known_edits2(word) or [word]
+
+        # candidates = known([word]) or known(edits1(word)) or known_edits2(word) or [word]
         likeliest = ['No Match', 0]
-        possibilities = Spelling.edits1(word)
-        #print("POSSIBILITIES: ",possibilities)
+        possibilities = Spelling.edits1()
+
         for word in possibilities:
             word = word.lower()
             print(word)
-            if Spelling.wordCounts.get(word) != None:
-                print("word:", word, " ",Spelling.wordCounts[word])
-                if Spelling.wordCounts[word] > likeliest[1]:
-                    likeliest = [word, Spelling.wordCounts[word]]
-                    print("likeliest is now ", word, " with occurrences: ",Spelling.wordCounts[word])
+
+            if self.word_counts.get(word) is not None:
+                print("word:", word, " ", self.word_counts[word])
+
+                if self.word_counts[word] > likeliest[1]:
+                    likeliest = [word, self.word_counts[word]]
+                    print("likeliest is now ", word, " with occurrences: ", self.word_counts[word])
+
         return likeliest[0]
 
     def score(self, data):
         print("data: ", data)
-        return Spelling.spelling_analysis(self, data)
+        return Spelling.spelling_analysis(data)
 
-spell = Spelling()
-dictionaryFile = open('../data/train_data/dictionary.txt', 'r')
-wordCounts = spell.train(spell.words(dictionaryFile.read()))
+if __name__ == '__main__':
+    spell = Spelling()
 
-#now we train a bit with actual text for word occurrence numbers
-trainFile = open('../data/train_data/bigGutenbergSample.txt', 'r')
-wordCounts = spell.train(spell.words(trainFile.read()))
-#print("wordCounts: ", wordCounts)
-print(spell.score(["This", "has", "sumthing", "wrong", "in", "it"]))
+    with open('../data/train_data/dictionary.txt', 'r') as dictionary_file:
+        spell.train(spell.words(dictionary_file.read()))
+
+    with open('../data/train_data/bigGutenbergSample.txt', 'r') as train_file:
+        spell.train(spell.words(train_file.read()))
+
+    print(spell.score(["This", "has", "sumthing", "wrong", "in", "it"]))
