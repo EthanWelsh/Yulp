@@ -42,7 +42,9 @@ class Spelling(Feature):
         """
         This function returns an array with every word(in lower case) in the argument containing a-z
         """
-        return re.findall('[a-z]+', text.lower())
+
+        word_regex = re.compile('[a-z]+', re.UNICODE)
+        return word_regex.findall(text.lower())
 
     @staticmethod
     def edits1(word):
@@ -79,15 +81,16 @@ class Spelling(Feature):
 
     def score(self, data):
         print("data: ", data)
-        return Spelling.spelling_analysis(data)
+        return self.spelling_analysis(data)
 
 if __name__ == '__main__':
     spell = Spelling()
 
-    with open('../data/train_data/dictionary.txt', 'r') as dictionary_file:
+    with open('../data/train_data/dictionary.txt', 'r', encoding='utf8') as dictionary_file:
         spell.train(spell.words(dictionary_file.read()))
 
-    with open('../data/train_data/bigGutenbergSample.txt', 'r') as train_file:
-        spell.train(spell.words(train_file.read()))
+    with open('../data/train_data/bigGutenbergSample.txt', 'r', encoding='utf8') as train_file:
+        gutenberg = train_file.read()
+        spell.train(spell.words(gutenberg))
 
     print(spell.score(["This", "has", "sumthing", "wrong", "in", "it"]))
