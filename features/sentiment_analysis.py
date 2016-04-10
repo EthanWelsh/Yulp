@@ -2,14 +2,11 @@ from nltk.sentiment.vader import SentimentIntensityAnalyzer
 from model.feature import Feature
 
 
-intensityAnalyzer = None
-
-
 class SentimentAnalysis(Feature):
 
+    def __init__(self):
+        self.intensity_analyzer = SentimentIntensityAnalyzer()
+
     def score(self, text):
-        global intensityAnalyzer
-        if intensityAnalyzer is None:
-            intensityAnalyzer = SentimentIntensityAnalyzer()
-        scores = intensityAnalyzer.polarity_scores(text)
+        scores = self.intensity_analyzer.polarity_scores(text)
         return scores['compound']
