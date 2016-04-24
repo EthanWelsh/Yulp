@@ -7,7 +7,20 @@ class SentimentAnalysis(Feature):
     def __init__(self):
         self.intensity_analyzer = SentimentIntensityAnalyzer()
 
+    def save(self, path):
+        pass
+
+    def load(self, path):
+        pass
+
+    def train(self):
+        pass
+
     def score(self, text):
+
+        if isinstance(text, list):
+            text = ' '.join(text)
+
         scores = self.intensity_analyzer.polarity_scores(text)
         return scores['compound']
 

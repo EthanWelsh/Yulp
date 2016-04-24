@@ -2,7 +2,7 @@ from model.feature import Feature
 
 
 class AverageWordLength(Feature):
-    def train(self, data, labels):
+    def train(self):
         pass
 
     def score(self, data):
@@ -14,7 +14,7 @@ class AverageWordLength(Feature):
                 average_length += len(word)
                 word_count += 1
 
-        return average_length/word_count if word_count > 0 else 0
+        return average_length / word_count if word_count > 0 else 0
 
     def load(self, path):
         pass
@@ -25,5 +25,8 @@ class AverageWordLength(Feature):
 
 if __name__ == '__main__':
     awl = AverageWordLength()
-    print(awl.score([['Hello', 'world'], ['Nice', 'to', 'meet', 'you']]))
 
+    score = awl.score(['Hello world'.split(),
+                       'Nice to meet you'.split()])
+
+    print(score)
