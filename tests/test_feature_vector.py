@@ -7,7 +7,7 @@ class TestFeatureVector:
         def load(self, path):
             pass
 
-        def train(self, data, labels):
+        def train(self):
             pass
 
         def score(self, data):
@@ -26,12 +26,11 @@ class TestFeatureVector:
     def test_train(self):
 
         try:
-
             fv = FeatureVector()
             fv.append(TestFeatureVector.BogusFeature())
             fv.append(TestFeatureVector.BogusFeature())
             fv.append(TestFeatureVector.BogusFeature())
-            fv.train([['hello', 'world'], ['this', 'is', 'me']], labels=[])
+            fv.train()
         except:
             pytest.fail('Training of features failed')
 
