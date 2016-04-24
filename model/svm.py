@@ -1,3 +1,4 @@
+import numpy as np
 from sklearn import svm
 from sklearn.multiclass import OneVsRestClassifier
 
@@ -15,5 +16,5 @@ class SVM:
         self.clf.fit(review_scores, labels)
 
     def predict(self, data):
-        dec = self.clf.predict(self.features.score(data))
+        dec = self.clf.predict(np.array([self.features.score(data)]))
         return dec[0]
