@@ -1,5 +1,7 @@
 from abc import abstractmethod, ABCMeta
 
+import numpy as np
+
 
 class FeatureVector:
 
