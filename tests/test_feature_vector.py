@@ -29,7 +29,6 @@ class TestFeatureVector:
             fv = FeatureVector()
             fv.append(TestFeatureVector.BogusFeature())
             fv.append(TestFeatureVector.BogusFeature())
-            fv.append(TestFeatureVector.BogusFeature())
             fv.train()
         except:
             pytest.fail('Training of features failed')
@@ -39,7 +38,6 @@ class TestFeatureVector:
         fv.append(TestFeatureVector.BogusFeature())
         fv.append(TestFeatureVector.BogusFeature())
         fv.append(TestFeatureVector.BogusFeature())
-        assert fv.score([[['A']], [['B']], [['C']], [['D']]]) == [[0.0, 0.0, 0.0],
-                                                                  [0.0, 0.0, 0.0],
-                                                                  [0.0, 0.0, 0.0],
-                                                                  [0.0, 0.0, 0.0]]
+        assert fv.score(['I was just wondering why you were here?'.split(),
+                         'The long and winding road'.split()]) == [0.0, 0.0, 0.0]
+

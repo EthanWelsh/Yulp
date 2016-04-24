@@ -16,8 +16,8 @@ class FeatureVector:
         for feature in self.features:
             feature.train()
 
-    def score(self, data):
-        return [[feature.score(datum) for feature in self.features] for datum in data]
+    def score(self, review):
+        return [feature.score(review) for feature in self.features]
 
 
 class Feature:
