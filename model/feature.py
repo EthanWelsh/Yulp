@@ -1,5 +1,7 @@
 from abc import abstractmethod, ABCMeta
 
+import numpy as np
+
 
 class FeatureVector:
 
@@ -12,24 +14,22 @@ class FeatureVector:
 
         self.features.append(feature)
 
-    def train(self, data, labels):
+    def train(self):
         for feature in self.features:
-            feature.train(data, labels)
+            feature.train()
 
-    def score(self, data):
-        return [[feature.score(datum) for feature in self.features] for datum in data]
+    def score(self, review):
+        return [feature.score(review) for feature in self.features]
 
 
 class Feature:
     __metaclass__ = ABCMeta
 
     @abstractmethod
-    def train(self, data, labels):
+    def train(self):
         """
-        Train the model on some data
+        Do whatever preparations which are needed to train your feature
 
-        :param data: A list of tuples containing training data and associated tag.
-        :param labels: A parallel array of matching labels for each piece of training data
         """
         pass
 

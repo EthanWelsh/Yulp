@@ -7,7 +7,7 @@ class TestFeatureVector:
         def load(self, path):
             pass
 
-        def train(self, data, labels):
+        def train(self):
             pass
 
         def score(self, data):
@@ -26,12 +26,10 @@ class TestFeatureVector:
     def test_train(self):
 
         try:
-
             fv = FeatureVector()
             fv.append(TestFeatureVector.BogusFeature())
             fv.append(TestFeatureVector.BogusFeature())
-            fv.append(TestFeatureVector.BogusFeature())
-            fv.train([['hello', 'world'], ['this', 'is', 'me']], labels=[])
+            fv.train()
         except:
             pytest.fail('Training of features failed')
 
@@ -40,7 +38,6 @@ class TestFeatureVector:
         fv.append(TestFeatureVector.BogusFeature())
         fv.append(TestFeatureVector.BogusFeature())
         fv.append(TestFeatureVector.BogusFeature())
-        assert fv.score([[['A']], [['B']], [['C']], [['D']]]) == [[0.0, 0.0, 0.0],
-                                                                  [0.0, 0.0, 0.0],
-                                                                  [0.0, 0.0, 0.0],
-                                                                  [0.0, 0.0, 0.0]]
+        assert fv.score(['I was just wondering why you were here?'.split(),
+                         'The long and winding road'.split()]) == [0.0, 0.0, 0.0]
+
