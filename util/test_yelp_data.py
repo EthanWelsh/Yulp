@@ -3,7 +3,7 @@ from yelp_data import Business, Review
 
 TEST_DATA_DIRECTORY = os.path.join(
     os.path.dirname(os.path.realpath(__file__)),
-    '../test_data'
+    '../data/test_data'
 )
 
 
