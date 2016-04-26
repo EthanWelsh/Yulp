@@ -1,6 +1,28 @@
+import json
+import random
+
 from features import average_word_length, sentiment_analysis
 from model.feature import FeatureVector
 from model.svm import SVM
+
+
+def retrieve_reviews(n):
+
+    reviews = []
+
+    with open('data/reviews.json') as reviews_file:
+        lines = reviews_file.readlines()
+
+        for index in range(len(lines)):
+            review_json = random.choice(lines)
+
+            if index > n:
+                break
+
+            parsed_review = json.loads(review_json)
+            reviews.append((parsed_review['text'], parsed_review['price']))
+
+    return reviews
 
 
 def main():
@@ -9,20 +31,27 @@ def main():
     vector.append(average_word_length.AverageWordLength())
     vector.append(sentiment_analysis.SentimentAnalysis())
 
-    review_a = ['Disgusting, filthy, and criminally slow'.split(),
-                'Awful place, never ever go there'.split(),
-                'Abominable, to put it simply. Our ratatouille was quite simply wretched.'.split()]
-
-    review_b = ['Its really good'.split(),
-                'Nice food. Good service'.split()]
-
     vector.train()
 
     model = SVM(vector)
-    model.train(reviews=[review_a, review_b], labels=[1, 4])
 
-    print(model.predict(data=review_a))
-    print(model.predict(data=review_b))
+    reviews = retrieve_reviews(200)
+
+    train_reviews = reviews[:150]
+    test_reviews = reviews[150:]
+
+    text, labels = zip(*train_reviews)
+    model.train(text, labels)
+
+    text, labels = zip(*test_reviews)
+
+    matches = 0
+
+    for i in range(len(labels)):
+        if model.predict(text[i]) == test_reviews[i][1]:
+            matches += 1
+
+    print('Accuracy = {}%'.format((matches/len(reviews)) * 100))
 
 
 if __name__ == '__main__':
