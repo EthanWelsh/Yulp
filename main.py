@@ -54,6 +54,5 @@ def main():
     print('Accuracy = {}%'.format((matches/len(reviews)) * 100))
 
 
-
 if __name__ == '__main__':
     main()
