@@ -19,6 +19,7 @@ class Spelling(Feature):
                 word = word.lower()
                 if word not in self.word_counts:
                     misspellings += 1
+                    print(self.correct(word))
         return (totalWords - misspellings) / totalWords
 
     # this function returns an array with every word(in lower case) in the argument containing a-z
@@ -48,37 +49,37 @@ class Spelling(Feature):
         s = [(word[:i], word[i:]) for i in range(len(word) + 1)]
         deletes = [a + b[1:] for a, b in s if b]
         transposes = [a + b[1] + b[0] + b[2:] for a, b in s if len(b) > 1]
-        replaces = [a + c + b[1:] for a, b in s for c in Spelling.alphabet if b]
-        inserts = [a + c + b for a, b in s for c in Spelling.alphabet]
+        replaces = [a + c + b[1:] for a, b in s for c in self.alphabet if b]
+        inserts = [a + c + b for a, b in s for c in self.alphabet]
         return set(deletes + transposes + replaces + inserts)
 
     def known_edits2(self, word):
-        return set(e2 for e1 in Spelling.edits1(word) for e2 in Spelling.edits1(e1) if e2 in Spelling.word_counts)
+        return set(e2 for e1 in self.edits1(word) for e2 in self.edits1(e1) if e2 in self.word_counts)
 
     def known(self, words):
-        return set(w for w in words if w in Spelling.word_counts)
+        return set(w for w in words if w in self.word_counts)
 
     def correct(self, word):
         # candidates = known([word]) or known(edits1(word)) or known_edits2(word) or [word]
         likeliest = ['No Match', 0]
-        possibilities = Spelling.edits1(word)
+        possibilities = self.edits1(word)
         # print("POSSIBILITIES: ",possibilities)
         for word in possibilities:
             word = word.lower()
-            print(word)
-            if Spelling.word_counts.get(word) != None:
-                print("word:", word, " ", Spelling.word_counts[word])
-                if Spelling.word_counts[word] > likeliest[1]:
-                    likeliest = [word, Spelling.word_counts[word]]
-                    print("likeliest is now ", word, " with occurrences: ", Spelling.word_counts[word])
+            #print(word)
+            if self.word_counts.get(word) != None:
+                #print("word:", word, " ", self.word_counts[word])
+                if self.word_counts[word] > likeliest[1]:
+                    likeliest = [word, self.word_counts[word]]
+                    #print("likeliest is now ", word, " with occurrences: ", self.word_counts[word])
         return likeliest[0]
 
     def score(self, data):
-        return Spelling.spelling_analysis(self, data)
+        return self.spelling_analysis(data)
 
 
 #this only happens when we run from the script
 if __name__ == '__main__':
     spell = Spelling()
     spell.train()
-    print(spell.score(["This sentence has sumthing misspelled in it".split(), "This is just another sentence".split()]))
+    print(spell.score(["This sentence has sumething misspelled in it".split(), "This is just another sentence".split()]))

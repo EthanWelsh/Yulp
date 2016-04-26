@@ -30,7 +30,7 @@ class Rarity(Feature):
     def train(self):
         #First we'll put in every word in the dictionary
         dictionaryFile = open('../data/train_data/dictionary.txt', 'r')
-        dictionary = rarity.words(dictionaryFile.read())
+        dictionary = self.words(dictionaryFile.read())
         for dict_entry in dictionary:
             if dict_entry not in self.word_counts:
                 self.word_counts[dict_entry] = 0
@@ -47,7 +47,7 @@ class Rarity(Feature):
                 self.max_word_occurrences = self.word_counts[word]
 
     def score(self, data):
-        return Rarity.rarity_analysis(self, data)
+        return self.rarity_analysis(data)
 
 
 #this only happens when we run from the script
