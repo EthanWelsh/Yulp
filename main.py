@@ -1,7 +1,7 @@
 import json
 import random
 
-from features import average_word_length, sentiment_analysis
+from features import average_word_length, sentiment_analysis, rarity_analysis
 from model.feature import FeatureVector
 from model.svm import SVM
 
@@ -30,15 +30,16 @@ def main():
 
     vector.append(average_word_length.AverageWordLength())
     vector.append(sentiment_analysis.SentimentAnalysis())
+    vector.append(rarity_analysis.Rarity())
 
     vector.train()
 
     model = SVM(vector)
 
-    reviews = retrieve_reviews(200)
+    reviews = retrieve_reviews(1000)
 
-    train_reviews = reviews[:150]
-    test_reviews = reviews[150:]
+    train_reviews = reviews[:950]
+    test_reviews = reviews[950:]
 
     text, labels = zip(*train_reviews)
     model.train(text, labels)
