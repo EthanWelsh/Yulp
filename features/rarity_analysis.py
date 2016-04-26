@@ -37,13 +37,14 @@ class Rarity(Feature):
         """
         return re.findall('[a-z]+', text.lower())
 
-    def train(self):
+    def train(self, dictionary_path='/data/train_data/dictionary.txt',
+                    train_path='/data/train_data/bigGutenbergSample.txt'):
         """
         :return: a model with each features unique word's number of occurrences
         """
 
         # First we'll put in every word in the dictionary
-        with open('data/train_data/dictionary.txt', 'r') as dictionary_file:
+        with open(dictionary_path, 'r') as dictionary_file:
             dictionary = self.words(dictionary_file.read())
 
         for dict_entry in dictionary:
@@ -52,7 +53,7 @@ class Rarity(Feature):
             self.word_counts[dict_entry] += 1
 
         # now we train a bit with actual text for word occurrence numbers
-        with open('data/train_data/bigGutenbergSample.txt', 'r', encoding='utf-8') as train_file:
+        with open(train_path, 'r', encoding='utf-8') as train_file:
             training_corpus = self.words(train_file.read())
 
         for word in training_corpus:
@@ -68,7 +69,8 @@ class Rarity(Feature):
 
 if __name__ == '__main__':
     rarity = Rarity()
-    rarity.train()
+    rarity.train(dictionary_path='../data/train_data/dictionary.txt',
+                 train_path='../data/train_data/bigGutenbergSample.txt')
     print(rarity.score([
         "This sentence has sumthing misspelled in it".split(),
         "This is just another sentence".split()]))
