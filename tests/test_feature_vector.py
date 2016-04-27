@@ -12,7 +12,7 @@ class TestFeatureVector:
             pass
 
         def score(self, data):
-            return 0.0
+            return 0.0,
 
         def save(self, path):
             pass
@@ -39,6 +39,9 @@ class TestFeatureVector:
         fv.append(TestFeatureVector.BogusFeature())
         fv.append(TestFeatureVector.BogusFeature())
         fv.append(TestFeatureVector.BogusFeature())
+
+        assert len(fv.score(['I was just wondering why you were here?'.split(),
+                             'The long and winding road'.split()])) == 3
+
         assert fv.score(['I was just wondering why you were here?'.split(),
                          'The long and winding road'.split()]) == [0.0, 0.0, 0.0]
-

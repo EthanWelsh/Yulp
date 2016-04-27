@@ -1,43 +1,10 @@
-import json
-import random
-
-from features import average_word_length, sentiment_analysis, rarity_analysis
+from features import average_word_length, sentiment_analysis, rarity_analysis, tfidf
 from model.feature import FeatureVector
 from model.svm import SVM
-
-
-def retrieve_reviews(n):
-
-    reviews = []
-
-    with open('data/reviews.json') as reviews_file:
-        lines = reviews_file.readlines()
-
-        for index in range(len(lines)):
-            review_json = random.choice(lines)
-
-            if index > n:
-                break
-
-            parsed_review = json.loads(review_json)
-            reviews.append((parsed_review['text'], parsed_review['price']))
-
-    return reviews
+from util.parse_reviews import retrieve_reviews
 
 
 def main():
-    vector = FeatureVector()
-
-    # Add features into feature vector
-    vector.append(average_word_length.AverageWordLength())
-    vector.append(sentiment_analysis.SentimentAnalysis())
-    vector.append(rarity_analysis.Rarity())
-
-    # Train all of the features individually
-    vector.train([], [])
-
-    model = SVM(vector)
-
     # Retrieve 1000 random reviews and associated costs
     reviews = retrieve_reviews(1000)
 
@@ -47,6 +14,19 @@ def main():
 
     # Separate text and label to use during the training process
     text, labels = zip(*train_reviews)
+
+    vector = FeatureVector()
+
+    # Add features into feature vector
+    vector.append(average_word_length.AverageWordLength())
+    vector.append(sentiment_analysis.SentimentAnalysis())
+    vector.append(rarity_analysis.Rarity())
+    vector.append(tfidf.TfIdf())
+
+    # Train all of the features individually
+    vector.train(text, labels)
+
+    model = SVM(vector)
     model.train(text, labels)
 
     # Separate text and label to use during the testing process
@@ -67,7 +47,7 @@ def main():
         dist = abs(predicted_score - actual_score)
         distance[dist] = distance.get(dist, 0) + 1
 
-    print('Matches = {0:.2f}%'.format((matches/len(labels)) * 100))
+    print('Matches = {0:.2f}%'.format((matches / len(labels)) * 100))
 
     for distance, count in distance.items():
         print("{} : {}".format(distance, count))

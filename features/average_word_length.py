@@ -14,7 +14,7 @@ class AverageWordLength(Feature):
                 average_length += len(word)
                 word_count += 1
 
-        return average_length / word_count if word_count > 0 else 0
+        return average_length / word_count if word_count > 0 else 0,
 
 
 if __name__ == '__main__':

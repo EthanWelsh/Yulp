@@ -1,4 +1,5 @@
 from abc import abstractmethod, ABCMeta
+from itertools import chain
 
 import numpy as np
 
@@ -19,7 +20,9 @@ class FeatureVector:
             feature.train(reviews, labels)
 
     def score(self, review):
-        return [feature.score(review) for feature in self.features]
+        scores = [(score for score in feature.score(review)) for feature in self.features]
+
+        return list(chain.from_iterable(scores))
 
 
 class Feature:

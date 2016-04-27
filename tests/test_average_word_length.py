@@ -8,5 +8,5 @@ class TestAverageWordLength:
         with pytest.raises(TypeError):
             AverageWordLength().score()
 
-    def test_returns_a_number(self):
-        assert isinstance(AverageWordLength().score([['test']]), float)
+    def test_returns_a_tuple(self):
+        assert isinstance(AverageWordLength().score([['test']]), tuple)
