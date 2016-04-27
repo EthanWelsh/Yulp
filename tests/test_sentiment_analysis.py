@@ -11,11 +11,11 @@ class TestSentimentAnalysisFeature:
         with pytest.raises(TypeError):
             self.analyzer.score()
 
-    def test_returns_a_number(self):
-        assert isinstance(self.analyzer.score('test'), float)
+    def test_returns_a_tuple(self):
+        assert isinstance(self.analyzer.score('test'), tuple)
 
     def test_returns_positive_number_for_positive_text(self):
-        assert self.analyzer.score('The food was good.') > 0
+        assert self.analyzer.score('The food was good.')[0] > 0
 
     def test_returns_negative_number_for_negative_text(self):
-        assert self.analyzer.score('The food was bad.') < 0
+        assert self.analyzer.score('The food was bad.')[0] < 0
