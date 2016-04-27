@@ -1,8 +1,10 @@
 from itertools import chain
 
+import numpy as np
 from sklearn.decomposition import TruncatedSVD
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.feature_selection import SelectKBest, chi2
+from sklearn.feature_selection import SelectKBest, f_classif
+from sklearn.preprocessing import Normalizer
 
 from model.feature import Feature
 from util.parse_reviews import retrieve_reviews
@@ -13,6 +15,7 @@ class TfIdf(Feature):
         self.kbest = None
         self.vect = None
         self.truncated = None
+        self.normalizer = None
 
     def train(self, reviews, labels):
         self.vect = TfidfVectorizer(analyzer='word', ngram_range=(1, 2), stop_words='english')
@@ -20,17 +23,20 @@ class TfIdf(Feature):
         reviews_text = [' '.join(list(chain.from_iterable(review))) for review in reviews]
         tfidf_matrix = self.vect.fit_transform(reviews_text).toarray()
 
-        self.truncated = TruncatedSVD(n_components=1).fit(tfidf_matrix)
+        self.truncated = TruncatedSVD(n_components=50).fit(tfidf_matrix, labels)
 
-        trunc = abs(self.truncated.transform(tfidf_matrix))
-        self.kbest = SelectKBest(chi2, k=1).fit(trunc, labels)
+        trunc = self.truncated.transform(tfidf_matrix)
+        self.normalizer = Normalizer().fit(trunc)
+
+        self.kbest = SelectKBest(f_classif, k=5).fit(self.normalizer.transform(trunc), labels)
 
     def score(self, data):
         reviews_text = ' '.join(list(chain.from_iterable(data)))
         tfidf_matrix = self.vect.transform([reviews_text]).toarray()
-        self.kbest.transform(self.truncated.transform(tfidf_matrix))
 
-        return self.kbest.transform(self.truncated.transform(tfidf_matrix))[0, 0]
+        trunc = self.truncated.transform(tfidf_matrix)
+
+        return tuple(self.kbest.transform(self.normalizer.transform(trunc))[0, :])
 
 
 if __name__ == '__main__':
