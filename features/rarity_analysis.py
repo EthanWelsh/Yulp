@@ -25,6 +25,8 @@ class Rarity(Feature):
         for sent in text:
             input_len += len(sent)
             for word in sent:
+                word = word.lower()
+                word = word.strip('.!?"@#$%^&*(){[]}<>')
                 if word in self.word_counts:
                     total_sent_count += self.word_counts[word]
 
@@ -69,6 +71,7 @@ class Rarity(Feature):
 
 if __name__ == '__main__':
     rarity = Rarity()
+    print("Llllllllllllll")
     rarity.train(dictionary_path='../data/train_data/dictionary.txt',
                  train_path='../data/train_data/bigGutenbergSample.txt')
     print(rarity.score([

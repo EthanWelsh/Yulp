@@ -23,9 +23,9 @@ class Spelling(Feature):
 
         for sentence in text:
             total_words += len(sentence)
-
             for word in sentence:
                 word = word.lower()
+                word = word.strip('.!?"@#$%^&*(){[]}<>')
                 if word not in self.word_counts:
                     misspellings += 1
 
