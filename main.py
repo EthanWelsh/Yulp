@@ -6,11 +6,11 @@ from model.feature import FeatureVector
 from model.svm import SVM
 
 
-def retrieve_reviews(n):
+def retrieve_reviews(n, data_path='data/reviews.json'):
 
     reviews = []
 
-    with open('data/reviews.json') as reviews_file:
+    with open(data_path) as reviews_file:
         lines = reviews_file.readlines()
 
         for index in range(len(lines)):
