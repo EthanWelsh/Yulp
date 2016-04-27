@@ -1,7 +1,27 @@
 import json
+import random
 
 import sys
 from nltk import sent_tokenize
+
+
+def retrieve_reviews(n, data_path='data/reviews.json'):
+
+    reviews = []
+
+    with open(data_path) as reviews_file:
+        lines = reviews_file.readlines()
+
+        for index in range(len(lines)):
+            review_json = random.choice(lines)
+
+            if index > n:
+                break
+
+            parsed_review = json.loads(review_json)
+            reviews.append((parsed_review['text'], parsed_review['price']))
+
+    return reviews
 
 
 def business_id_to_price(buisness_dataset_path):

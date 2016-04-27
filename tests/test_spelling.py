@@ -8,5 +8,5 @@ class TestAverageWordLength:
         with pytest.raises(TypeError):
             Spelling().score()
 
-    def test_returns_a_number(self):
-        assert isinstance(Spelling().score([['test']]), float)
+    def test_returns_a_tuple(self):
+        assert isinstance(Spelling().score([['test']]), tuple)

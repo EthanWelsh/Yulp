@@ -26,7 +26,7 @@ class TestSVM:
         def score(self, data):
             data = ' '.join(list(chain.from_iterable(data)))
 
-            return 1 if data.islower() else 0
+            return 1 if data.islower() else 0,
 
         def save(self, path):
             pass
