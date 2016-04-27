@@ -4,10 +4,11 @@ from model.feature import FeatureVector, Feature
 
 class TestFeatureVector:
     class BogusFeature(Feature):
+
         def load(self, path):
             pass
 
-        def train(self):
+        def train(self, reviews, labels):
             pass
 
         def score(self, data):
@@ -29,7 +30,7 @@ class TestFeatureVector:
             fv = FeatureVector()
             fv.append(TestFeatureVector.BogusFeature())
             fv.append(TestFeatureVector.BogusFeature())
-            fv.train()
+            fv.train([], [])
         except:
             pytest.fail('Training of features failed')
 

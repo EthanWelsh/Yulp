@@ -1,6 +1,6 @@
-import re, collections
+import re
+
 from model.feature import Feature
-import string
 
 """
 dictionary source: Princeton University "About WordNet." WordNet. Princeton University. 2010.
@@ -50,7 +50,7 @@ class Spelling(Feature):
             self.word_counts[dict_entry] += 1
 
         # now we train a bit with actual text for word occurrence numbers
-        with open(train_path) as train_file:
+        with open(train_path, encoding='utf-8') as train_file:
             training_corpus = self.words(train_file.read())
 
         for word in training_corpus:
@@ -65,6 +65,6 @@ class Spelling(Feature):
 if __name__ == '__main__':
     spell = Spelling()
     spell.train(dictionary_path='../data/train_data/dictionary.txt',
-              train_path='../data/train_data/bigGutenbergSample.txt')
+                train_path='../data/train_data/bigGutenbergSample.txt')
     print(
         spell.score(["This sentence has sumething misspelled in it".split(), "This is just another sentence".split()]))

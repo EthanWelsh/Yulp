@@ -34,7 +34,7 @@ def main():
     vector.append(rarity_analysis.Rarity())
 
     # Train all of the features individually
-    vector.train()
+    vector.train([], [])
 
     model = SVM(vector)
 
