@@ -1,28 +1,76 @@
-from features import average_word_length, sentiment_analysis
+import json
+import random
+
+from features import average_word_length, sentiment_analysis, rarity_analysis
 from model.feature import FeatureVector
 from model.svm import SVM
+
+
+def retrieve_reviews(n):
+
+    reviews = []
+
+    with open('data/reviews.json') as reviews_file:
+        lines = reviews_file.readlines()
+
+        for index in range(len(lines)):
+            review_json = random.choice(lines)
+
+            if index > n:
+                break
+
+            parsed_review = json.loads(review_json)
+            reviews.append((parsed_review['text'], parsed_review['price']))
+
+    return reviews
 
 
 def main():
     vector = FeatureVector()
 
+    # Add features into feature vector
     vector.append(average_word_length.AverageWordLength())
     vector.append(sentiment_analysis.SentimentAnalysis())
+    vector.append(rarity_analysis.Rarity())
 
-    review_a = ['Disgusting, filthy, and criminally slow'.split(),
-                'Awful place, never ever go there'.split(),
-                'Abominable, to put it simply. Our ratatouille was quite simply wretched.'.split()]
-
-    review_b = ['Its really good'.split(),
-                'Nice food. Good service'.split()]
-
-    vector.train()
+    # Train all of the features individually
+    vector.train([], [])
 
     model = SVM(vector)
-    model.train(reviews=[review_a, review_b], labels=[1, 4])
 
-    print(model.predict(data=review_a))
-    print(model.predict(data=review_b))
+    # Retrieve 1000 random reviews and associated costs
+    reviews = retrieve_reviews(1000)
+
+    # Split reviews into a training and testing portion
+    train_reviews = reviews[:950]
+    test_reviews = reviews[950:]
+
+    # Separate text and label to use during the training process
+    text, labels = zip(*train_reviews)
+    model.train(text, labels)
+
+    # Separate text and label to use during the testing process
+    text, labels = zip(*test_reviews)
+
+    matches = 0
+    distance = {}
+
+    for i in range(len(labels)):
+        predicted_score = model.predict(text[i])
+        actual_score = labels[i]
+
+        # count how many predicted scores match with the actual ones
+        if predicted_score == actual_score:
+            matches += 1
+
+        # get a histogram of how far predicted scores differ from the actual
+        dist = abs(predicted_score - actual_score)
+        distance[dist] = distance.get(dist, 0) + 1
+
+    print('Matches = {0:.2f}%'.format((matches/len(labels)) * 100))
+
+    for distance, count in distance.items():
+        print("{} : {}".format(distance, count))
 
 
 if __name__ == '__main__':
