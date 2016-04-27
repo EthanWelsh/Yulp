@@ -1,6 +1,7 @@
 from itertools import chain
 
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
+
 from model.feature import Feature
 
 
@@ -9,13 +10,7 @@ class SentimentAnalysis(Feature):
     def __init__(self):
         self.intensity_analyzer = SentimentIntensityAnalyzer()
 
-    def save(self, path):
-        pass
-
-    def load(self, path):
-        pass
-
-    def train(self):
+    def train(self, reviews, labels):
         pass
 
     def score(self, text):

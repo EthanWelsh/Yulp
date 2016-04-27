@@ -2,7 +2,7 @@ from model.feature import Feature
 
 
 class AverageWordLength(Feature):
-    def train(self):
+    def train(self, reviews, labels):
         pass
 
     def score(self, data):
@@ -15,12 +15,6 @@ class AverageWordLength(Feature):
                 word_count += 1
 
         return average_length / word_count if word_count > 0 else 0
-
-    def load(self, path):
-        pass
-
-    def save(self, path):
-        pass
 
 
 if __name__ == '__main__':
