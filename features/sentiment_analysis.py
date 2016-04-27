@@ -19,7 +19,7 @@ class SentimentAnalysis(Feature):
             text = ' '.join(list(chain.from_iterable(text)))
 
         scores = self.intensity_analyzer.polarity_scores(text)
-        return scores['compound']
+        return scores['compound'],
 
 
 if __name__ == '__main__':

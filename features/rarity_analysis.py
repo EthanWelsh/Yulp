@@ -64,7 +64,7 @@ class Rarity(Feature):
                 self.max_word_occurrences = self.word_counts[word]
 
     def score(self, data):
-        return self.rarity_analysis(data)
+        return self.rarity_analysis(data),
 
 
 if __name__ == '__main__':

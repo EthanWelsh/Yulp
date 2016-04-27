@@ -59,7 +59,7 @@ class Spelling(Feature):
             self.word_counts[word] += 1
 
     def score(self, data):
-        return self.spelling_analysis(data)
+        return self.spelling_analysis(data),
 
 
 if __name__ == '__main__':
