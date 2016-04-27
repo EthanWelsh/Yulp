@@ -1,15 +1,14 @@
 from itertools import chain
 
+from sklearn.decomposition import TruncatedSVD
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.feature_selection import SelectKBest, chi2
-from sklearn.decomposition import TruncatedSVD
-from model.feature import Feature
 
-from main import retrieve_reviews
+from model.feature import Feature
+from util.parse_reviews import retrieve_reviews
 
 
 class TfIdf(Feature):
-
     def __init__(self):
         self.kbest = None
         self.vect = None
@@ -40,7 +39,3 @@ if __name__ == '__main__':
 
     feat.train(reviews, labels)
     print(feat.score(reviews[0]))
-
-
-
-
