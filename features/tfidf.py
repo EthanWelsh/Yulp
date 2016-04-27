@@ -23,12 +23,15 @@ class TfIdf(Feature):
         reviews_text = [' '.join(list(chain.from_iterable(review))) for review in reviews]
         tfidf_matrix = self.vect.fit_transform(reviews_text).toarray()
 
-        self.truncated = TruncatedSVD(n_components=50).fit(tfidf_matrix, labels)
+        self.truncated = TruncatedSVD(n_components=50)
+        self.truncated.fit(tfidf_matrix, labels)
 
         trunc = self.truncated.transform(tfidf_matrix)
-        self.normalizer = Normalizer().fit(trunc)
+        self.normalizer = Normalizer()
+        self.normalizer.fit(trunc)
 
-        self.kbest = SelectKBest(f_classif, k=5).fit(self.normalizer.transform(trunc), labels)
+        self.kbest = SelectKBest(f_classif, k=5)
+        self.kbest.fit(self.normalizer.transform(trunc), labels)
 
     def score(self, data):
         reviews_text = ' '.join(list(chain.from_iterable(data)))
