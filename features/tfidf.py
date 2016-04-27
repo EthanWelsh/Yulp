@@ -22,7 +22,8 @@ class TfIdf(Feature):
 
         self.truncated = TruncatedSVD(n_components=1).fit(tfidf_matrix)
 
-        self.kbest = SelectKBest(chi2, k=1).fit(self.truncated.transform(tfidf_matrix), labels)
+        trunc = abs(self.truncated.transform(tfidf_matrix))
+        self.kbest = SelectKBest(chi2, k=1).fit(trunc, labels)
 
     def score(self, data):
         reviews_text = ' '.join(list(chain.from_iterable(data)))
