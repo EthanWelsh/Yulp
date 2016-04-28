@@ -49,7 +49,7 @@ def main():
         dist = abs(predicted_score - actual_score)
         distance[dist] = distance.get(dist, 0) + 1
 
-    print('Matches = {0:.2f}%'.format((matches / len(labels)) * 100))
+    print('Matches = {:.2%}'.format(matches / len(labels)))
 
     for distance, count in distance.items():
         print("{} : {}".format(distance, count))
