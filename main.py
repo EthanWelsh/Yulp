@@ -1,4 +1,4 @@
-from features import average_word_length, sentiment_analysis, rarity_analysis, tfidf, readability, spelling
+from features import average_word_length, sentiment, rarity, tfidf, readability, spelling
 from model.feature import FeatureVector
 from model.svm import SVM
 from util.parse_reviews import retrieve_reviews
@@ -19,8 +19,8 @@ def main():
 
     # Add features into feature vector
     vector.append(average_word_length.AverageWordLength())
-    vector.append(sentiment_analysis.SentimentAnalysis())
-    vector.append(rarity_analysis.Rarity())
+    vector.append(sentiment.SentimentAnalysis())
+    vector.append(rarity.Rarity())
     vector.append(tfidf.TfIdf())
     vector.append(readability.Readability())
     vector.append(spelling.Spelling())
