@@ -6,7 +6,7 @@ from sklearn.multiclass import OneVsRestClassifier
 class SVM:
     def __init__(self, feature_vector):
         self.features = feature_vector
-        self.clf = OneVsRestClassifier(svm.SVC())
+        self.clf = OneVsRestClassifier(svm.SVC(kernel='rbf'))
 
     def train(self, reviews, labels):
         if len(reviews) != len(labels):
