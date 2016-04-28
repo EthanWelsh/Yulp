@@ -12,13 +12,12 @@ def retrieve_reviews(n, data_path='data/reviews.json'):
     with open(data_path) as reviews_file:
         lines = reviews_file.readlines()
 
-        for index in range(len(lines)):
-            review_json = random.choice(lines)
+        for index, line in enumerate(lines):
 
             if index > n:
                 break
 
-            parsed_review = json.loads(review_json)
+            parsed_review = json.loads(line)
             reviews.append((parsed_review['text'], parsed_review['price']))
 
     return reviews

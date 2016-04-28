@@ -38,8 +38,8 @@ class Spelling(Feature):
         """
         return re.findall('[a-z]+', text.lower())
 
-    def train(self, dictionary_path='/data/train_data/dictionary.txt',
-              train_path='/data/train_data/bigGutenbergSample.txt'):
+    def train(self, reviews, labels, dictionary_path='data/train_data/dictionary.txt',
+              train_path='data/train_data/bigGutenbergSample.txt'):
 
         # first we fill in the dictionary to our word_counts starting every word off with one occurrence
         with open(dictionary_path) as dictionary_file:
@@ -65,7 +65,7 @@ class Spelling(Feature):
 
 if __name__ == '__main__':
     spell = Spelling()
-    spell.train(dictionary_path='../data/train_data/dictionary.txt',
+    spell.train([], [], dictionary_path='../data/train_data/dictionary.txt',
                 train_path='../data/train_data/bigGutenbergSample.txt')
     print(
         spell.score(["This sentence has sumething misspelled in it".split(), "This is just another sentence".split()]))

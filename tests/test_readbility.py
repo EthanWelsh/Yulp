@@ -2,7 +2,7 @@ import pytest
 from features.readability import Readability
 
 
-class Test_Readability:
+class TestReadability:
 
     def test_it_fails_without_passing_text(self):
         with pytest.raises(TypeError):
