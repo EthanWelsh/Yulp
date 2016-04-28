@@ -1,5 +1,5 @@
 import pytest
-from features.readability_analysis import Readability
+from features.readability import Readability
 
 
 class Test_Readability:
