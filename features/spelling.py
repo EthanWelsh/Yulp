@@ -37,8 +37,8 @@ class Spelling(Feature):
         """
         return re.findall('[a-z]+', text.lower())
 
-    def train(self, reviews, labels, dictionary_path='/data/train_data/dictionary.txt',
-              train_path='/data/train_data/bigGutenbergSample.txt'):
+    def train(self, reviews, labels, dictionary_path='data/train_data/dictionary.txt',
+              train_path='data/train_data/bigGutenbergSample.txt'):
 
         # first we fill in the dictionary to our word_counts starting every word off with one occurrence
         with open(dictionary_path) as dictionary_file:
