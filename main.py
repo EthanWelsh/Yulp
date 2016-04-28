@@ -1,16 +1,16 @@
-from features import average_word_length, sentiment_analysis, rarity_analysis, tfidf
+from features import average_word_length, sentiment_analysis, rarity_analysis, tfidf, readability, spelling
 from model.feature import FeatureVector
 from model.svm import SVM
 from util.parse_reviews import retrieve_reviews
 
 
 def main():
-    # Retrieve 1000 random reviews and associated costs
-    reviews = retrieve_reviews(1000)
+
+    reviews = retrieve_reviews(5000)
 
     # Split reviews into a training and testing portion
-    train_reviews = reviews[:950]
-    test_reviews = reviews[950:]
+    train_reviews = reviews[:4000]
+    test_reviews = reviews[4001 + 1:]
 
     # Separate text and label to use during the training process
     text, labels = zip(*train_reviews)
@@ -22,6 +22,8 @@ def main():
     vector.append(sentiment_analysis.SentimentAnalysis())
     vector.append(rarity_analysis.Rarity())
     vector.append(tfidf.TfIdf())
+    vector.append(readability.Readability())
+    vector.append(spelling.Spelling())
 
     # Train all of the features individually
     vector.train(text, labels)
