@@ -25,6 +25,8 @@ class Rarity(Feature):
         for sent in text:
             input_len += len(sent)
             for word in sent:
+                word = word.lower()
+                word = word.strip('.!?"@#$%^&*(){[]}<>')
                 if word in self.word_counts:
                     total_sent_count += self.word_counts[word]
 
