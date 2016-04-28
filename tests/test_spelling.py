@@ -1,5 +1,5 @@
 import pytest
-from features.spelling_analysis import Spelling
+from features.spelling import Spelling
 
 
 class TestAverageWordLength:

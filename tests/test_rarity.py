@@ -1,5 +1,5 @@
 import pytest
-from features.rarity_analysis import Rarity
+from features.rarity import Rarity
 
 
 class TestAverageWordLength:
