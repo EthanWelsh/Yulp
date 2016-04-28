@@ -47,14 +47,14 @@ class Readability(Feature):
 
         if total_words != 0 and total_sentences != 0:
             dale_chall_index = 0.1579 * ((total_difficult_words / total_words) * 100) + 0.0496 * (
-            total_words / total_sentences)
+                total_words / total_sentences)
             dale_chall_index_mapped = dale_chall_index / 10
         else:
             dale_chall_index_mapped = 0.0
 
         if total_sentences != 0 and total_words != 0:
             flesch_kincaid_index = 206.835 - 1.015 * (total_words / total_sentences) - 84.6 * (
-            total_syllables / total_words)
+                total_syllables / total_words)
             flesch_kincaid_index_mapped = ((flesch_kincaid_index - 0) / (100 - 0) * (1))
         else:
             flesch_kincaid_index_mapped = 0.0
@@ -67,7 +67,7 @@ class Readability(Feature):
         """
         return re.findall('[a-z]+', text.lower())
 
-    def train(self, dale_chall_easy_words_path='data/train_data/DaleChallEasyWordList.txt'):
+    def train(self, review, label, dale_chall_easy_words_path='data/train_data/DaleChallEasyWordList.txt'):
         with open(dale_chall_easy_words_path, 'r') as dale_chall_easy_words_file:
             self.dale_chall_easy_words = self.words(dale_chall_easy_words_file.read())
 
@@ -78,6 +78,10 @@ class Readability(Feature):
         """
         Need to make sure that I only input all lowercase words only letters
         """
+
+        if len(word) == 0:
+            return 0
+
         vowel_str = 'aeiouy'
         syllable_count = 0
         if word[0] in vowel_str:
@@ -98,7 +102,7 @@ class Readability(Feature):
 
 if __name__ == '__main__':
     cl = Readability()
-    cl.train(dale_chall_easy_words_path='../data/train_data/DaleChallEasyWordList.txt')
+    cl.train([], [], dale_chall_easy_words_path='../data/train_data/DaleChallEasyWordList.txt')
     print(cl.score([
         "this is a simple test sentence".split(),
         "This is just so that we can confirm that they are screwing up".split(),
