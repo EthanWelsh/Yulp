@@ -41,45 +41,25 @@ class TestFoodSophisticationFeature:
         feature = FoodSophisticationTestClass()
         assert len(feature.food_word_dict.items()) == 2
 
-    def test_it_can_score_one_sentence(self):
+    def test_it_can_score_a_review(self):
         feature = FoodSophisticationTestClass()
+        reviews = [
+            [['Foo']], [['Foo']], [['Foo']], [['Foo']]
+        ]
         prices = [
             1, 1, 3, 4
         ]
-        reviews = [
-            ['Foo'],
-            ['Foo'],
-            ['Foo'],
-            ['Foo']
-        ]
         feature.train(reviews, prices)
-        assert feature.score(['Foo']) == 1
-        assert feature.score(['Foo', 'baz']) == 1
-
-    def test_it_can_score_many_sentences(self):
-        feature = FoodSophisticationTestClass()
-        prices = [
-            1, 1, 3, 4
-        ]
-        reviews = [
-            ['Foo'],
-            ['Foo'],
-            ['Foo'],
-            ['Foo']
-        ]
-        feature.train(reviews, prices)
-        assert feature.score([['Foo'], ['Foo']]) == [1, 1]
+        assert feature.score([['Foo']]) == 1
+        assert feature.score([['Foo', 'baz']]) == 1
 
     def test_it_averages_score_of_all_words_in_sentence(self):
         feature = FoodSophisticationTestClass()
+        reviews = [
+            [['Foo']], [['Foo']], [['Bar']], [['Bar']]
+        ]
         prices = [
             1, 1, 3, 3
         ]
-        reviews = [
-            ['Foo'],
-            ['Foo'],
-            ['Bar'],
-            ['Bar']
-        ]
         feature.train(reviews, prices)
-        assert feature.score(['Foo', 'bar']) == 2
+        assert feature.score([['Foo', 'bar']]) == 2

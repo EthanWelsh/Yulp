@@ -39,7 +39,7 @@ class Feature:
         """
         Provides some scalar value as representation of this feature's score
 
-        :param data: a single review or list of reviews to score
+        :param data: a list of reviews to score
         """
         pass
 

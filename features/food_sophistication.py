@@ -69,34 +69,35 @@ class FoodSophistication(Feature):
         Takes the prices and reviews and builds out the lookup table
 
         Arguments:
-            prices: a list of prices
             reviews: a list of reviews
+            prices: a list of prices
 
             The two lists should be parallel, such that prices[0] corresponds
-                reviews[0]
+                with reviews[0]
 
         Returns:
             None
         """
         training_data = zip(prices, reviews)
         for price, review in training_data:
-            for word in review:
-                word = word.lower()
-                if word in self.food_word_dict:
-                    self.food_word_dict[word][price] += 1
+            for sentence in review:
+                for word in sentence:
+                    word = word.lower()
+                    if word in self.food_word_dict:
+                        self.food_word_dict[word][price] += 1
 
-    def score(self, data):
+    def score(self, review):
         """
-        Score a single, or list of, sentences
+        Score a single review
 
-        If the data is a list, it will score all of them and return a parallel
-        list of scores.  If the data is a single score, it will just return
-        a single score.
+        Arguments:
+            list(list(str)): the review to score
+        Returns:
+            float: the score for the review
         """
-        if isinstance(data, list) and isinstance(data[0], list):
-            return list(map(self._score_one_sentence, data))
-        else:
-            return self._score_one_sentence(data)
+        scores = map(lambda sentence: self._score_one_sentence(sentence),
+                     review)
+        return mean(list(scores))
 
     def _score_one_sentence(self, sentence):
         """Score a single sentence"""
