@@ -52,7 +52,7 @@ class TestFoodSophisticationFeature:
             ['Foo'],
             ['Foo']
         ]
-        feature.train(prices, reviews)
+        feature.train(reviews, prices)
         assert feature.score(['Foo']) == 1
         assert feature.score(['Foo', 'baz']) == 1
 
@@ -67,7 +67,7 @@ class TestFoodSophisticationFeature:
             ['Foo'],
             ['Foo']
         ]
-        feature.train(prices, reviews)
+        feature.train(reviews, prices)
         assert feature.score([['Foo'], ['Foo']]) == [1, 1]
 
     def test_it_averages_score_of_all_words_in_sentence(self):
@@ -81,5 +81,5 @@ class TestFoodSophisticationFeature:
             ['Bar'],
             ['Bar']
         ]
-        feature.train(prices, reviews)
+        feature.train(reviews, prices)
         assert feature.score(['Foo', 'bar']) == 2
