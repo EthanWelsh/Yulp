@@ -63,3 +63,14 @@ class TestFoodSophisticationFeature:
         ]
         feature.train(reviews, prices)
         assert feature.score([['Foo', 'bar']]) == (2, )
+
+    def test_it_can_evaluate_sentences_of_non_words(self):
+        feature = FoodSophisticationTestClass()
+        reviews = [
+            [['Foo']], [['Foo']], [['Bar']], [['Bar']]
+        ]
+        prices = [
+            1, 1, 3, 3
+        ]
+        feature.train(reviews, prices)
+        assert feature.score([['bax', 'baz']]) == (0.0, )

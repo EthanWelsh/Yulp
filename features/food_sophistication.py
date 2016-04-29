@@ -106,7 +106,11 @@ class FoodSophistication(Feature):
                             sentence)
         scores = map(lambda word: self.food_word_dict[word].most_likely_price,
                      food_words)
-        return mean(list(scores))
+        scores = list(scores)
+        if len(scores) == 0:
+            return 0
+        else:
+            return mean(scores)
 
     def _get_food_types(self, food_words_path='data/food_words.txt'):
         """
