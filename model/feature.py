@@ -1,8 +1,6 @@
 from abc import abstractmethod, ABCMeta
 from itertools import chain
 
-import numpy as np
-
 
 class FeatureVector:
 
