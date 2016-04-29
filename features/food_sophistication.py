@@ -62,7 +62,7 @@ class FoodSophistication(Feature):
             elif item not in self.food_word_dict:
                 self.food_word_dict[item] = FoodWord(item)
 
-    def train(self, prices, reviews):
+    def train(self, reviews, prices):
         """
         Train the model on the prices and reviews provided
 
@@ -107,7 +107,7 @@ class FoodSophistication(Feature):
                      food_words)
         return mean(list(scores))
 
-    def _get_food_types(self):
+    def _get_food_types(self, food_words_path='data/food_words.txt'):
         """
         Get the list of food types
 
@@ -115,7 +115,7 @@ class FoodSophistication(Feature):
             set(<str>): the set of words
         """
         words = set()
-        with open('../data/food_words.txt') as f:
+        with open(food_words_path, encoding='utf-8') as f:
             for line in f.readlines():
                 words.add(line)
         return words

@@ -41,7 +41,7 @@ class SentenceTopic(Feature):
                       sentence,
                       False)
 
-    def _get_food_types(self):
+    def _get_food_types(self, food_words_path='data/food_words.txt'):
         """
         Get the list of food types
 
@@ -51,7 +51,7 @@ class SentenceTopic(Feature):
             set(<str>): the set of words
         """
         words = set()
-        with open('../data/food_words.txt') as f:
+        with open(food_words_path, encoding='utf-8') as f:
             for line in f.readlines():
                 if len(line.split(' ')) == 1:
                     words.add(line)
