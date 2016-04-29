@@ -27,7 +27,7 @@ class SentenceTopic(Feature):
                 return prev
 
         food_sentences = reduce(num_food_sentences, data, 0)
-        return food_sentences / total_sentences
+        return (food_sentences / total_sentences, )
 
     def _sentence_contains_food_word(self, sentence):
         """

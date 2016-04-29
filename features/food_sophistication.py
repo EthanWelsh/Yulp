@@ -93,11 +93,11 @@ class FoodSophistication(Feature):
         Arguments:
             list(list(str)): the review to score
         Returns:
-            float: the score for the review
+            tuple(float): the score for the review
         """
         scores = map(lambda sentence: self._score_one_sentence(sentence),
                      review)
-        return mean(list(scores))
+        return (mean(list(scores)), )
 
     def _score_one_sentence(self, sentence):
         """Score a single sentence"""

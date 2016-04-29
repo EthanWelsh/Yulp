@@ -29,7 +29,7 @@ class TestSentenceTopicFeature:
         feature = SentenceTopicTestClass()
         assert feature.score([
             ['foo'], ['bar']
-        ]) == 1
+        ]) == (1, )
         assert feature.score([
             ['foo'], ['baz']
-        ]) == .5
+        ]) == (.5, )
